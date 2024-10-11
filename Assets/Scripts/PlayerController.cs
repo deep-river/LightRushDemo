@@ -1,4 +1,4 @@
-using System;
+锘縰sing System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,11 +85,11 @@ public class PlayerController : MonoBehaviour
     {
         if (moveInput.x > 0 && !IsFacingRight)
         {
-            // 角色朝向右侧
+            // 瑙掕壊鏈濆悜鍙充晶
             IsFacingRight = true;
         } else if (moveInput.x < 0 && IsFacingRight)
         {
-            // 角色朝向左侧
+            // 瑙掕壊鏈濆悜宸︿晶
             IsFacingRight = false;
         }
     }

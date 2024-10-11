@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,13 +7,13 @@ public class ParallaxEffect : MonoBehaviour
     public Camera cam;
     public Transform followTarget;
 
-    // ÊÓ²î¶ÔÏó³õÊ¼Î»ÖÃ
+    // è§†å·®å¯¹è±¡åˆå§‹ä½ç½®
     Vector2 startingPosition;
 
-    // ÊÓ²î¶ÔÏó³õÊ¼Î»ÖÃZÖáÖµ
+    // è§†å·®å¯¹è±¡åˆå§‹ä½ç½®Zè½´å€¼
     float startingZ;
 
-    // ÉãÏñ»úÏà¶ÔÊÓ²î¶ÔÏó³õÊ¼Î»ÖÃµÄÒÆ¶¯¾àÀë£¬Ã¿Ö¡×Ô¶¯¸üÐÂ
+    // æ‘„åƒæœºç›¸å¯¹è§†å·®å¯¹è±¡åˆå§‹ä½ç½®çš„ç§»åŠ¨è·ç¦»ï¼Œæ¯å¸§è‡ªåŠ¨æ›´æ–°
     Vector2 camMoveSinceStart => (Vector2) cam.transform.position - startingPosition;
 
     float zDistanceFromTarget => transform.position.z - followTarget.transform.position.z;
