@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool _isFacingRight = true;
-    public float jumpImpulse = 5f;
+    public float jumpImpulse = 10f;
 
     public bool IsFacingRight
     {
