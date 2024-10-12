@@ -15,10 +15,15 @@ public class GenerateGroundTiles : MonoBehaviour
     public int generationDistance = 20; // 触发新地形生成的距离
     public int maxTerrainHeight = 15; // 最大地形高度
     public int initialTerrainDistance = 10; // 玩家初始位置两侧生成地形的距离
+    public float cliffChance = 0.1f; // 生成悬崖的概率
+    public int minCliffWidth; // 最小悬崖宽度
+    public int maxCliffWidth; // 最大悬崖宽度
+    public int minDistanceBetweenCliffs = 10; // 悬崖之间的最小距离
 
     private HashSet<Vector3Int> generatedChunks = new HashSet<Vector3Int>(); // 已生成的地形块集合
     private int lastGroundHeight = 0; // 记录最后生成的地形高度
     private int lastGeneratedChunkX = 0; // 记录最后生成的chunk的X坐标
+    private int distanceSinceLastCliff = 0; // 距离上一个悬崖的距离
 
     void Start()
     {
@@ -62,6 +67,7 @@ public class GenerateGroundTiles : MonoBehaviour
         }
 
         lastGeneratedChunkX = Mathf.FloorToInt(initialGroundX / chunkSize);
+        distanceSinceLastCliff = 0;
     }
 
     void GenerateChunk(int chunkX)
@@ -76,11 +82,38 @@ public class GenerateGroundTiles : MonoBehaviour
 
         for (int x = startX; x < endX; x++)
         {
-            lastGroundHeight = GetNextGroundHeight(x, lastGroundHeight);
-            GenerateGroundTile(x, lastGroundHeight);
+            if (distanceSinceLastCliff >= minDistanceBetweenCliffs && Random.value < cliffChance)
+            {
+                x = GenerateCliff(x, endX);
+                distanceSinceLastCliff = 0;
+            }
+            else
+            {
+                lastGroundHeight = GetNextGroundHeight(x, lastGroundHeight);
+                GenerateGroundTile(x, lastGroundHeight);
+                distanceSinceLastCliff++;
+            }
         }
 
         lastGeneratedChunkX = chunkX;
+    }
+
+    int GenerateCliff(int startX, int endX)
+    {
+        int cliffWidth = Random.Range(minCliffWidth, maxCliffWidth + 1);
+        int cliffEndX = Mathf.Min(startX + cliffWidth, endX);
+
+        // 清除悬崖区域的所有地形
+        for (int x = startX; x < cliffEndX; x++)
+        {
+            for (int y = 0; y <= maxTerrainHeight; y++)
+            {
+                tiles.SetTile(new Vector3Int(x, y, 0), null);
+                otherThings.SetTile(new Vector3Int(x, y, 0), null);
+            }
+        }
+
+        return cliffEndX;
     }
 
     int GetNextGroundHeight(int x, int currentHeight)

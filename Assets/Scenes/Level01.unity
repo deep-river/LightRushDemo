@@ -766,6 +766,10 @@ MonoBehaviour:
   generationDistance: 20
   maxTerrainHeight: 10
   initialTerrainDistance: 10
+  cliffChance: 0.1
+  minCliffWidth: 2
+  maxCliffWidth: 3
+  minDistanceBetweenCliffs: 15
 --- !u!1 &740943379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,7 +1055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 5
   _isFacingRight: 1
-  jumpImpulse: 10
+  jumpImpulse: 8
 --- !u!50 &940952531
 Rigidbody2D:
   serializedVersion: 4
