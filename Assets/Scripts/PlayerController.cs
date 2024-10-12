@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool _isFacingRight = true;
-    private float jumpImpulse = 10f;
+    public float jumpImpulse = 5f;
 
     public bool IsFacingRight
     {
@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool isAutoRunning = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,7 +69,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveInput.x * runSpeed, rb.velocity.y);
+        if (isAutoRunning)
+        {
+            rb.velocity = new Vector2(runSpeed, rb.velocity.y);
+            IsMoving = true;
+        }
+        else
+        {
+            rb.velocity = new Vector2(moveInput.x * runSpeed, rb.velocity.y);
+        }
+        
 
         animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
     }
@@ -100,6 +111,15 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger(AnimationStrings.jump);
             rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
+        }
+    }
+
+    public void OnLockRunning(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            isAutoRunning = !isAutoRunning;
+            Debug.Log("Auto running: " + (isAutoRunning ? "Enabled" : "Disabled"));
         }
     }
 }

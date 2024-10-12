@@ -18,7 +18,7 @@ public class ParallaxEffect : MonoBehaviour
 
     float zDistanceFromTarget => transform.position.z - followTarget.transform.position.z;
 
-    float clippingPlane => (cam.transform.position.z + (zDistanceFromTarget > 0 ? cam.farClipPlane : cam.nearClipPlane));
+    float clippingPlane => (cam.transform.position.z + (zDistanceFromTarget > 0 ? cam.nearClipPlane : cam.farClipPlane));
 
     float parallaxFactor => 5f * Mathf.Abs(zDistanceFromTarget) / clippingPlane;
 
@@ -32,6 +32,6 @@ public class ParallaxEffect : MonoBehaviour
     {
         Vector2 newPosition = startingPosition + camMoveSinceStart * parallaxFactor;
 
-        transform.position = new Vector3(newPosition.x, newPosition.y, startingZ);
+        transform.position = new Vector3(newPosition.x, startingPosition.y, startingZ);
     }
 }
